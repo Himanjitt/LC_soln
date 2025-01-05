@@ -23,12 +23,12 @@ public:
             }
         }
         queue<int>q;
-        vector<int> track(n,false);
+        vector<int> ans;
 
         for(int i=0;i<n;i++){
             if(indeg[i]==0){
                 q.push(i);
-                track[i]=true;
+                ans.push_back(i);
             }
         }
 
@@ -39,19 +39,13 @@ public:
             for(auto neighbor: adj[curr]){
                 indeg[neighbor]--;
                 if(indeg[neighbor]==0){
-                    track[neighbor]=true;
+                    ans.push_back(neighbor);
                     q.push(neighbor);
                 }
             }
         }
     
-        vector<int> ans;
-        for(int i=0;i<n;i++){
-            if(track[i]==true){
-                ans.push_back(i);
-            }
-        }
-
+        sort(ans.begin(),ans.end());
         return ans;
     }
 };
