@@ -38,12 +38,12 @@ public:
                 break;
         }
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                cout<<grid[i][j]<<" ";
-            }
-            cout<<endl;
-        }
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<n;j++){
+        //         cout<<grid[i][j]<<" ";
+        //     }
+        //     cout<<endl;
+        // }
 
 
         vector<pair<int,int>> movements={
@@ -56,7 +56,7 @@ public:
         while(!q.empty()){
             int size=q.size();
 
-            level++;
+            
             while(size--){
                 pair<int,int> a=q.front();
                 q.pop();
@@ -66,7 +66,7 @@ public:
                     int adj_y = a.second + movement.second;
 
                     if(isValid(adj_x,adj_y)==true && grid[adj_x][adj_y]==1){
-                        return level-1;
+                        return level;
                     }
                     if(isValid(adj_x,adj_y)==true && grid[adj_x][adj_y]==0){
                         grid[adj_x][adj_y]=-1;
@@ -74,6 +74,7 @@ public:
                     }
                 }
             }
+            level++;
         }
 
         return -1;
