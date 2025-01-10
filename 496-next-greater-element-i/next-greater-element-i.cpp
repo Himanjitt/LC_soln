@@ -14,10 +14,9 @@ public:
         for (int i =0;i<n;i++) {
 
             while (s.empty()==false && nums2[s.top()] < nums2[i]) {
-                int top=s.top();
-                s.pop();
-
-                v[top]=nums2[i];
+                
+                v[s.top()]=nums2[i];
+                s.pop();     
             }
             s.push(i);
         }
