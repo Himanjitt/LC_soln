@@ -9,20 +9,19 @@ public:
         for (int i = 0; i < n; i++) {
             car.push_back({position[i], speed[i]});
         }
-        sort(car.begin(), car.end(),
-             [](const p& a, const p& b) { return a.first > b.first; });
-
+        
+        sort(car.begin(), car.end(), greater<p>());
        
-        stack<double> s;
+        vector<double> v;
 
         for (auto ele : car) {
             double time = (double)(target - ele.first) / ele.second;
 
-            if (s.empty() == false && s.top() >= time) {
+            if (v.empty() == false && v.back() >= time) {
                 continue;
             }
-            s.push(time);
+            v.push_back(time);
         }
-        return s.size();
+        return v.size();
     }
 };
