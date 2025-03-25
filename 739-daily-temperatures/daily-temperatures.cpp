@@ -7,18 +7,17 @@ public:
 
         for (int i = 0; i < n; i++) {
             while (s.empty() == false && temperatures[s.top()] < temperatures[i]) {
-                v[s.top()] = i;
+                v[s.top()] = i-s.top();
                 s.pop();
             }
-
             s.push(i);
         }
 
-        for (int i = 0; i < n; i++) {
-            if (v[i] != 0) {
-                v[i] = v[i] - i;
-            }
-        }
+        // for (int i = 0; i < n; i++) {
+        //     if (v[i] != 0) {
+        //         v[i] = v[i] - i;
+        //     }
+        // }
 
         return v;
     }
