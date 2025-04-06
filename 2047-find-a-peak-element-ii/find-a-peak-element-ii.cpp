@@ -1,32 +1,34 @@
 class Solution {
 public:
+    int findMaxColIndex(vector<int>& arr) {
+        int maxiInd = -1;
+        int maxi = INT_MIN;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] > maxi) {
+                maxi = arr[i];
+                maxiInd = i;
+            }
+        }
+
+        return maxiInd;
+    }
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
         int r = mat.size();
         int c = mat[0].size();
-        int ans = -1;
-        int x = -1, y = -1;
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                if (i == 0 || i == r - 1 || j == 0 || j == c - 1) {
-                    if (mat[i][j] > ans) {
-                        x = i, y = j;
-                        ans = mat[i][j];
-                    }
-
-                } else {
-                    if (mat[i][j] > mat[i - 1][j] &&
-                        mat[i][j] > mat[i + 1][j] &&
-                        mat[i][j] > mat[i][j - 1] &&
-                        mat[i][j] > mat[i][j + 1]) {
-                        if (mat[i][j] > ans) {
-                            x = i, y = j;
-                            ans = mat[i][j];
-                        }
-                    }
-                }
+        int start = 0, end = r - 1;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            int maxColIndex = findMaxColIndex(mat[mid]);
+            int up = (mid - 1 < 0) ? -1 : mat[mid - 1][maxColIndex];
+            int down = (mid + 1 >= r) ? -1 : mat[mid + 1][maxColIndex];
+            if (mat[mid][maxColIndex] > up && mat[mid][maxColIndex] > down) {
+                return {mid, maxColIndex};
+            } else if (down > mat[mid][maxColIndex]) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
             }
         }
-        vector<int> v = {x, y};
-        return v;
+        return {-1, -1};
     }
 };
