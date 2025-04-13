@@ -6,7 +6,7 @@ class Solution {
             flag=true;
             return;
         }
-        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j]=='*'){
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() ){
             return;
         }
         if(board[i][j]!=word[ind]){
