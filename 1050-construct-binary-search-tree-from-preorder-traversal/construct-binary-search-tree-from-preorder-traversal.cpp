@@ -11,31 +11,32 @@
  */
 class Solution {
 public:
-    void buildBST(TreeNode* &root, int key) {
-        // searching
-        TreeNode* node= root;
-        //insertion logic as previosly done
-        while (true) {
-            if(node->val < key){
-                if(node->right== NULL){
-                    node->right=new TreeNode(key);
-                    break;
-                }
-                node=node->right;
-            }else{
-                if(node->left== NULL){
-                    node->left=new TreeNode(key);
-                    break;
-                }
-                node=node->left;
-            }   
-        }       
+    TreeNode* solve(vector<int>& preorder, vector<int>& inorder, int start, int end, int &idx){
+        if(start>end){
+            return NULL;
+        }
+        int rootVal=preorder[idx];
+        idx++;
+        int i;
+        for( i=start;i<=end;i++){
+            if(rootVal==inorder[i]){
+                break;
+            }
+        }
+        TreeNode* root=new TreeNode(rootVal);
+
+        root->left=solve(preorder,inorder, start, i-1, idx);
+        root->right=solve(preorder, inorder, i+1, end, idx);
+
+        return root;
     }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-        TreeNode* root = new TreeNode(preorder[0]);
-        for(int i=1;i<preorder.size();i++){
-            buildBST(root, preorder[i]);
-        }
-        return root;
+        vector<int>inorder=preorder;
+        sort(inorder.begin(),inorder.end());
+        int n=preorder.size();
+        int start=0;
+        int end=n-1;
+        int idx=0;
+        return solve(preorder,inorder, start, end, idx);
     }
 };
