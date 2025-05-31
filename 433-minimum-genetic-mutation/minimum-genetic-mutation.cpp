@@ -1,6 +1,8 @@
+
 class Solution {
 public:
     int minMutation(string startGene, string endGene, vector<string>& bank) {
+        //check notes
         unordered_set<string> st(bank.begin(), bank.end());
 
         if(bank.size()==0) return -1;
