@@ -2,7 +2,7 @@ class Solution {
 public:
     int ladderLength(string beginWord, string endWord,
                      vector<string>& wordList) {
-
+        //check notes
         unordered_set<string> st(wordList.begin(), wordList.end());
 
         int n=beginWord.size();
