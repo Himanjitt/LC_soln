@@ -1,6 +1,8 @@
 class Solution {
 public:
     int countPaths(int n, vector<vector<int>>& roads) {
+        //same as normal dijkstra , just keep a count of number of ways 
+        // to reach
         int mod = 1e9 + 7;
         map<int, vector<pair<int, long>>> adj;
         for (auto ele : roads) {
