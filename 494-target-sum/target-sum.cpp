@@ -9,7 +9,10 @@ public:
             }
             return 0;
         }
+        //normalizing the sum for valid access in dp table
+        //to avoid -ve index 
         int normalizedSum = currSum + totalSumOffset;
+
         if (dp[ind][normalizedSum] != -1) {
             return dp[ind][normalizedSum];
         }
