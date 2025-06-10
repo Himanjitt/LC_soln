@@ -1,3 +1,4 @@
+// sorting greedily because it is given any order, unlike normal LIS
 class Solution {
 public:
     int solve(vector<vector<int>>& nums, int ind, int prevInd, vector<vector<int>> &dp) {
