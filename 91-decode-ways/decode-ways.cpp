@@ -22,6 +22,8 @@ public:
         }
 
         int count = 0;
+        //we have two options only , take 1 or take till 2
+        //could have done in 2 recursive calls, here in partition dp form
         for (int k = 1; k <= 2; k++) {
             string temp = "";
             if (i + k <= s.size()) {
