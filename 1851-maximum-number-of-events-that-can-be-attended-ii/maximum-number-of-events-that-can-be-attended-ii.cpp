@@ -1,3 +1,4 @@
+//CHECK NOTES
 class Solution {
 public:
     // BS on getnext
