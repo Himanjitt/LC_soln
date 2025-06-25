@@ -3,25 +3,30 @@ public:
     vector<int> luckyNumbers(vector<vector<int>>& matrix) {
         vector<int> ans;
         int n = matrix.size(), m = matrix[0].size();
-        vector<int> rowMin(n, INT_MAX), colMax(m, INT_MIN);
-
+        
+        int colMax = INT_MIN;
         for (int i = 0; i < n; i++) {
+            int rowMin = INT_MAX;
             for (int j = 0; j < m; j++) {
-                rowMin[i] = min(rowMin[i], matrix[i][j]);
-                colMax[j] = max(colMax[j], matrix[i][j]);
+                rowMin = min(rowMin, matrix[i][j]);
             }
+            colMax = max(colMax, rowMin);
         }
+        
 
-    
-        for(int i=0;i < n;i++){
-            for(int j=0;j< m;j++){
-                if( (matrix[i][j] == rowMin[i]) && (matrix[i][j] == colMax[j]) ){
-                    ans.push_back(rowMin[i]);
-                }
+        int colMaxMIN = INT_MAX;
+        for (int j = 0; j < m; j++) {
+            int rowMinMAX = INT_MIN;
+            for (int i = 0; i < n; i++) {
+                rowMinMAX = max(rowMinMAX, matrix[i][j]);
             }
+            colMaxMIN = min(colMaxMIN, rowMinMAX);
         }
+        
+        if(colMax == colMaxMIN ) 
+            return {colMax};
 
-        return ans;
+        return {};
     }
 };
 
