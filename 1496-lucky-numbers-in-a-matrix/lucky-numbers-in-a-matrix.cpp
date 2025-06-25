@@ -15,7 +15,7 @@ public:
     
         for(int i=0;i < n;i++){
             for(int j=0;j< m;j++){
-                if(rowMin[i] == colMax[j]){
+                if( (matrix[i][j] == rowMin[i]) && (matrix[i][j] == colMax[j]) ){
                     ans.push_back(rowMin[i]);
                 }
             }
