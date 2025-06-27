@@ -20,8 +20,8 @@ public:
         //substract alice score - lee score
         int n= piles.size();
         vector<vector<int>>dp(n,vector<int>(n,-1));
-        int score = solve(0, n-1, piles, dp);
-        if(score >= 0) return true;
+        int diff = solve(0, n-1, piles, dp);
+        if(diff >= 0) return true;
 
         return false;
         
