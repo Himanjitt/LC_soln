@@ -1,48 +1,62 @@
 class Solution {
 public:
-    int n;
-    int solveForAlice(vector<int>&piles,int person, int i, vector<vector<int>>&dp){
-        if(i == piles.size()){
-            return 0;
-        }
-        if(dp[person][i] != -1){
-            return dp[person][i];
-        }
+    // int solve(vector<int>& piles, int i, vector<int>& dp) {
+    //     if (i == piles.size())
+    //         return 0;
 
-        int result = (person == 1) ? INT_MIN : INT_MAX;
-        int stones = 0;
-        
-        for(int x=1; x <= 3; x++){
-            if(i + x -1 >= n) continue;
-            stones += piles[i + x -1];
+    //     if (dp[i] != -1) {
+    //         return dp[i];
+    //     }
 
-            if(person == 1){ //alice
-                result = max(result, stones + solveForAlice(piles, 0, i+x, dp));
-            }
-            else{ //BOB
-                result = min(result, solveForAlice(piles, 1, i+x, dp));
-            }
-        }
+    //     int take1 = piles[i] - solve(piles, i + 1, dp);
 
-        return  dp[person][i] = result;
+    //     int take2 = INT_MIN;
+    //     if (i + 1 < piles.size()) {
+    //         take2 = piles[i] + piles[i + 1] - solve(piles, i + 2, dp);
+    //     }
 
-    }
+    //     int take3 = INT_MIN;
+    //     if (i + 2 < piles.size()) {
+    //         take3 = piles[i] + piles[i + 1] + piles[i + 2] -
+    //                 solve(piles, i + 3, dp);
+    //     }
+
+    //     return dp[i] = max({take1, take2, take3});
+    // }
+
     string stoneGameIII(vector<int>& piles) {
-        if(piles.size() == 1) {
-            if(piles[0] > 0)
-                return "Alice";
+        int n = piles.size();
+        vector<int> dp(n + 1 , 0);
+        // int diff = solve(piles, 0, dp);
 
-            return "Bob";
+        // base case
+        //handled in vector declaration
+
+        // iteration
+        for (int i = n-1; i >=0; i--) {
+            
+            int take1 = piles[i] - dp[i + 1];
+
+            int take2 = INT_MIN;
+            if (i + 1 < piles.size()) {
+                take2 = piles[i] + piles[i + 1] - dp[i + 2];
+            }
+
+            int take3 = INT_MIN;
+            if (i + 2 < piles.size()) {
+                take3 = piles[i] + piles[i + 1] + piles[i + 2] -
+                        dp[i + 3];
+            }
+
+            dp[i] = max({take1, take2, take3});
         }
-        n = piles.size();
-        //1 means alice , 0 means bob
-        int sum = accumulate(piles.begin(), piles.end(), 0);
-        vector<vector<int>>dp(2,vector<int>(n,-1));
-        int AliceScore = solveForAlice(piles, 1, 0, dp);
-        int BobScore = sum - AliceScore;
 
-        if(BobScore == AliceScore) return "Tie";
-        if(BobScore > AliceScore) return "Bob";
+        int diff = dp[0];
+
+        if (diff == 0)
+            return "Tie";
+        if (diff < 0)
+            return "Bob";
         return "Alice";
     }
 };
