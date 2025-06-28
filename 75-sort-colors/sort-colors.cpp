@@ -1,6 +1,9 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
+        //i represents 0
+        //j represent 1
+        //k represents 2
         int i=0, j=0, k=nums.size()-1;
 
         while(j<=k){
