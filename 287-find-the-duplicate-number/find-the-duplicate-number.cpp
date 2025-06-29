@@ -1,17 +1,25 @@
 class Solution {
 public:
+    //the starting point of the loop is the 
+    // duplicate point
     int findDuplicate(vector<int>& nums) {
+        int slow = nums[0];
+        int fast = nums[0];
 
-        for(int i=0;i<nums.size();i++){
-            int index=abs(nums[i])-1;
+        slow = nums[slow];
+        fast = nums[nums[fast]];
 
-            if(nums[index]<0){
-                return index+1;
-            }
-            else{
-                nums[index]=-nums[index];
-            }
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[nums[fast]];
         }
-        return -1;
+        fast = nums[0];
+
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        
+        return slow;
     }
 };
