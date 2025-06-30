@@ -1,3 +1,4 @@
+//SAME CODE as leetcode 560
 class Solution {
 public:
     int numSubarraysWithSum(vector<int>& nums, int k) {
