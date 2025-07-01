@@ -1,35 +1,45 @@
+// CHECK NOTES
 class Solution {
 public:
     string minWindow(string s, string t) {
-        // find all the substrings
-        int left = 0, right = 0;
-        int index = -1, mini = INT_MAX;
         int n = s.size();
-        vector<int> hash(256, 0);
-        for (char ch : t) {
-            hash[ch]++;
+        unordered_map<char, int> mp;
+        for (char c : t) {
+            mp[c]++;
         }
-        int count = 0;
-        while (right < n) {
-            if (hash[s[right]] > 0) {
-                count++;
-            }
-            hash[s[right]]--;
 
-            while (count == t.size()) {
-                if (mini > right - left + 1) {
-                    mini = right - left + 1;
-                    index = left;
+        int minlen = INT_MAX;
+        int start_i = -1;
+        
+        int left = 0, right =0;
+        int requiredCount = t.size();
+
+        while(right < n){
+            char ch = s[right];
+            if(mp[ch] > 0){
+                requiredCount--;
+            }
+            mp[ch]--;
+
+            //incase we find substring in t in it
+            //we will try to shrink it for min 
+            while(requiredCount == 0){
+                int len = right - left +1;
+                //not direct min() cuz we need start index
+                if(len < minlen){
+                    minlen = len;
+                    start_i = left;
                 }
-                hash[s[left]]++;
-                if (hash[s[left]] > 0) {
-                    count--;
+                mp[s[left]]++;
+                if(mp[s[left]] > 0){
+                    requiredCount++;
                 }
                 left++;
             }
 
             right++;
         }
-        return (index == -1) ? "" : s.substr(index, mini);
+
+        return (minlen == INT_MAX) ? "" : s.substr(start_i, minlen);
     }
 };
