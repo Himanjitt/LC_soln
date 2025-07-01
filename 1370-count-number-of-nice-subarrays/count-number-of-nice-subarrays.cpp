@@ -1,6 +1,7 @@
 //SAME here just replace odd with 1 and even with 0, 
 //then k odd number ,mean k 1s mean sum = k
 // SAME as LEETCODE 560
+//CHECK NOTES
 class Solution {
 public:
     int numberOfSubarrays(vector<int>& nums, int k) {
