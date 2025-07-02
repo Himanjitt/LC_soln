@@ -1,3 +1,5 @@
+//CHECK NOTES , The pairs on the left side of single =>(even , odd) pos
+// pairs on the right side of single =>(odd, even) pos 
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
