@@ -16,7 +16,7 @@ public:
     }
     long long minimumTime(vector<int>& time, int totalTrips) {
         long long start = 1;
-        long long end = *min_element(time.begin(), time.end()) ;
+        long long end = *max_element(time.begin(), time.end()) ;
         end = end * totalTrips;
 
         long long ans = LONG_MAX;;
