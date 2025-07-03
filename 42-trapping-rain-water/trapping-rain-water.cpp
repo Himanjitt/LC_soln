@@ -1,26 +1,43 @@
-class Solution {
+class Solution{
 public:
-    int trap(vector<int>& height) {
-        int ans = 0;
+    int trap(vector<int> &height){
         int n = height.size();
-        vector<int> prefixMax(n), suffixMax(n);
+        vector<int> leftMax(n), rightMax(n);
+        leftMax[0] = 0, rightMax[n-1] = 0;
 
-        prefixMax[0] = height[0];
-        suffixMax[n - 1] = height[n - 1];
-
-        for (int i = 1; i < n; i++) {
-            prefixMax[i] = max(prefixMax[i - 1], height[i]);
+        for(int i=1;i<n;i++){
+            leftMax[i] = max(leftMax[i-1], height[i-1]);
         }
-
-        for (int i = n - 2; i >= 0; i--) {
-            suffixMax[i] = max(suffixMax[i + 1], height[i]);
+        // for(auto ele: leftMax){
+        //     cout<< ele<<" ";
+        // }
+        // cout<<endl;
+        for(int i=n-2;i>=0;i--){
+            rightMax[i] = max(rightMax[i+1], height[i+1]);
         }
+        // for(auto ele: rightMax){
+        //     cout<< ele<<" ";
+        // }
+        int ans =0;
 
-        for (int i = 0; i < n; i++) {
-            int leftMax = prefixMax[i];
-            int rightMax = suffixMax[i];
-            ans += min(leftMax, rightMax) - height[i];
+        for(int i=0;i<n;i++){
+            if(min(leftMax[i],rightMax[i]) - height[i]> 0){
+                ans += min(leftMax[i],rightMax[i]) - height[i];
+            }
+            
         }
-        return ans;
+        return ans;;
     }
 };
+
+/*
+total water = 0+1+1;
+
+max to the left and max to the right
+min(0,2) = 0  
+
+min(1, 2) = 1 - 0 = 1
+min(1,3) = 1 -2 = 
+min(2,3) = 2 - 1 = 1
+min(2, 3) = 2 -0 =2
+*/
