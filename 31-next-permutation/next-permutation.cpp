@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // always the smallest number is in the increasing form //LC - Remove K digits
     // 1)Find breakpoint from the end 
     // 2)Swap the breakpoint value with rightmost value which is greater 
     // greater than breakpoint value
