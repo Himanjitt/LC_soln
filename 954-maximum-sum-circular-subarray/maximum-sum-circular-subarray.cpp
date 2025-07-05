@@ -22,6 +22,8 @@ public:
         int maxSub = maxSubArray(nums);
         int minSub = minSubArray(nums);
 
+        //maxSub array in circular = Total - minSub array
+        // ie minSub + maxSub = total 
         if (maxSub < 0) return maxSub;
 
         return max(maxSub ,totalSum - minSub);
