@@ -1,43 +1,25 @@
-class Solution{
+class Solution {
 public:
-    int trap(vector<int> &height){
+    int trap(vector<int>& height) {
         int n = height.size();
-        vector<int> leftMax(n), rightMax(n);
-        leftMax[0] = 0, rightMax[n-1] = 0;
+        int left = 0, right =n-1;
+        int leftMax = 0, rightMax= 0;
 
-        for(int i=1;i<n;i++){
-            leftMax[i] = max(leftMax[i-1], height[i-1]);
-        }
-        // for(auto ele: leftMax){
-        //     cout<< ele<<" ";
-        // }
-        // cout<<endl;
-        for(int i=n-2;i>=0;i--){
-            rightMax[i] = max(rightMax[i+1], height[i+1]);
-        }
-        // for(auto ele: rightMax){
-        //     cout<< ele<<" ";
-        // }
-        int ans =0;
+        int water = 0;
+        while(left < right){
+            leftMax = max(leftMax, height[left]);
+            rightMax = max(rightMax, height[right]);
 
-        for(int i=0;i<n;i++){
-            if(min(leftMax[i],rightMax[i]) - height[i]> 0){
-                ans += min(leftMax[i],rightMax[i]) - height[i];
+            if(leftMax < rightMax){
+                water += leftMax - height[left];
+                left++;
             }
-            
+            else{
+                water += rightMax - height[right];
+                right--;
+            }
         }
-        return ans;;
+
+        return water;
     }
 };
-
-/*
-total water = 0+1+1;
-
-max to the left and max to the right
-min(0,2) = 0  
-
-min(1, 2) = 1 - 0 = 1
-min(1,3) = 1 -2 = 
-min(2,3) = 2 - 1 = 1
-min(2, 3) = 2 -0 =2
-*/
