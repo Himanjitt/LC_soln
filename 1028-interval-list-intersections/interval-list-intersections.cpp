@@ -8,7 +8,11 @@ public:
         while (i < firstList.size() && j < secondList.size()) {
             vector<int> v1 = firstList[i];
             vector<int> v2 = secondList[j];
-
+             /*
+                Two intervals A = [a1, a2] and B = [b1, b2]
+                overlap if and only if:
+                a2 >= b1 && b2 >= a1
+            */
             if (v1[1] >= v2[0] && v1[0] <= v2[1]) { // there is overlap
                 ans.push_back({max(v1[0], v2[0]), min(v1[1], v2[1])});
             }
