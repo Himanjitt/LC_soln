@@ -2,33 +2,27 @@ class Solution {
 public:
     int compress(vector<char>& chars) {
         int n = chars.size();
-        int write = 0; // position to write compressed output
-        int read = 0;  // position to read through chars
+        int i = 0, j =0;
 
-        while (read < n) {
-            char currentChar = chars[read];
-            int count = 0;
-
-            // Count occurrences of currentChar
-            while (read < n && chars[read] == currentChar) {
-                read++;
-                count++;
+        while(j < n){
+            int len=0;
+            char currentChar = chars[j];
+            while(j < n && chars[j] == currentChar){
+                len++;
+                j++;
             }
+            chars[i] = currentChar;
+            i++;
 
-            // Write the character
-            chars[write] = currentChar;
-            write++;
-
-            // If count > 1, write digits of the count
-            if (count > 1) {
-                string countStr = to_string(count);
-                for (char ch : countStr) {
-                    chars[write] = ch;
-                    write++;
+            if(len > 1){
+                string lenstr= to_string(len);
+                for(char ch : lenstr){
+                    chars[i] = ch;
+                    i++;
                 }
             }
         }
 
-        return write;
+        return i;
     }
 };
