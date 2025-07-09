@@ -34,9 +34,9 @@ public:
         }
 
         data.pop_back();
-        // for (auto ele : data) {
-        //     cout << ele << " ";
-        // }
+        for (auto ele : data) {
+            cout << ele << " ";
+        }
         return data;
     }
 
@@ -47,17 +47,12 @@ public:
             return NULL;
 
         vector<string> finalData;
-        string temp;
-        for (char ch : data) {
-            if (ch == ',') {
-                finalData.push_back(temp);
-                temp = "";
-            } else {
-                temp += ch;
-            }
+        stringstream ss(data);
+        string token;
+
+        while(getline(ss, token,',')){
+            finalData.push_back(token);
         }
-        if (!temp.empty())
-            finalData.push_back(temp); // Add the last node
 
         TreeNode* root = new TreeNode(stoi(finalData[0]));
         queue<TreeNode*> q;
