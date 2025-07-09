@@ -6,78 +6,89 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
-public:
-    unordered_map<int, TreeNode*> mp;
+   public:
+    unordered_set<TreeNode*> visited;
+    
+    unordered_map<TreeNode*, TreeNode*> mp; // child to parent
 
-    void solve(TreeNode* node) {
-        if (node == NULL)
-            return;
+    void parentFilling(TreeNode* node) {
+        if (node == NULL) return;
 
         if (node->left) {
-            mp[node->left->val] = node;
+            mp[node->left] = node;
         }
         if (node->right) {
-            mp[node->right->val] = node;
+            mp[node->right] = node;
         }
-        solve(node->left);
-        solve(node->right);
-    }
-    TreeNode* findNode(TreeNode* root, int start) {
-        if (!root)
-            return NULL;
-        if (root->val == start)
-            return root;
 
-        TreeNode* left = findNode(root->left, start);
-        if (left)
-            return left;
-
-        return findNode(root->right, start);
+        parentFilling(node->left);
+        parentFilling(node->right);
     }
 
-    void bfs(TreeNode* target, int& ans) {
-        unordered_set<int> visited;
-        visited.insert(target->val);
+    void bfs(TreeNode* startAddress, int& level) {
+        if (startAddress == NULL) return;
+
         queue<TreeNode*> q;
-        q.push(target);
+        q.push(startAddress);
+        visited.insert(startAddress);
 
-        while (q.empty() == false) {
+        while (!q.empty()) {
             int size = q.size();
-            ans++;
+
             while (size--) {
-                TreeNode* temp = q.front();
+                TreeNode* front = q.front();
                 q.pop();
 
-                if (temp->left != NULL && visited.count(temp->left->val) == 0) {
-                    visited.insert(temp->left->val);
-                    q.push(temp->left);
+                // left explore
+                if (front->left && visited.count(front->left) == 0) {
+                    visited.insert(front->left);
+                    q.push(front->left);
                 }
-                if (temp->right != NULL &&
-                    visited.count(temp->right->val) == 0) {
-                    visited.insert(temp->right->val);
-                    q.push(temp->right);
+                // right explore
+                if (front->right && visited.count(front->right) == 0) {
+                    visited.insert(front->right);
+                    q.push(front->right);
                 }
 
-                if (mp.count(temp->val) != 0 &&
-                    visited.count(mp[temp->val]->val) == 0) {
-                    visited.insert(mp[temp->val]->val);
-                    q.push(mp[temp->val]);
+                // up check (parent check)
+                if (mp.find(front) != mp.end() &&
+                    visited.count(mp[front]) == 0) {
+                    TreeNode* parent = mp[front];
+                    visited.insert(parent);
+                    q.push(parent);
                 }
             }
+            level++;
         }
     }
+    TreeNode* findAddress(TreeNode* node, int start) {
+        if (node == NULL) return NULL;
 
+        if (node-> val == start) {
+            return node;
+        }
+        TreeNode* left = findAddress(node->left, start);
+        TreeNode* right = findAddress(node->right, start);
+
+        if (left) return left;
+        return right;
+    }
     int amountOfTime(TreeNode* root, int start) {
-        solve(root);
-        int ans = 0;
-        TreeNode* startAddress =
-            (start == root->val) ? root : findNode(root, start);
-        bfs(startAddress, ans);
-        return ans - 1;
+        if (root == NULL) return 0;
+        parentFilling(root);
+        TreeNode* startAddress = NULL;
+        if (start == root->val) {
+            startAddress = root;
+        } else {
+            startAddress = findAddress(root, start);
+        }
+
+        int level = 0;
+        bfs(startAddress, level);
+        return level - 1;
     }
 };
