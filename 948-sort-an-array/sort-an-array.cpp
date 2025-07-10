@@ -1,53 +1,62 @@
-// merge sort
 /*
+Quick Sort
+    1   2  3  5
+    p   s     e
+   [5 , 2, 3, 1]
+                 l 
+              r
+The idea is to find take the pivot as the first element
+- first make sure all the left are small than pivot and right are
+larger than pivot by swapping them
+- then at last swap the pivot itself with the right position
 
-    [5,2,4,3,1]
-[2,5]        [1,3]
+this above will make sure the current pivot is at its correct place
+
+and recursive solve for pivot - 1 and pivot +1
 
 */
 class Solution {
 public:
-    void merge(vector<int>& nums, int start, int mid, int end) {
-        int left = start, right = mid + 1;
-        vector<int> temp;
-        while (left <= mid && right <= end) {
-            if (nums[left] <= nums[right]) {
-                temp.push_back(nums[left]);
+    int findPivotInd(vector<int>&nums, int start, int end){
+        int pivot = nums[start];
+        int left = start+1, right = end;
+
+        while(left <= right){
+
+            while(left <= end && nums[left] < pivot){
                 left++;
-            } else {
-                temp.push_back(nums[right]);
-                right++;
+            }
+
+            while(right >= start && nums[right] > pivot){
+                right--;
+            }
+
+            if(left <= right){
+                swap(nums[left], nums[right]);
+                left++;
+                right--;
             }
         }
 
-        while (left <= mid) {
-            temp.push_back(nums[left]);
-            left++;
-        }
+        swap(nums[start], nums[right]);
 
-        while (right <= end) {
-            temp.push_back(nums[right]);
-            right++;
-        }
-
-        for(int i=0;i<temp.size();i++){
-            nums[start + i] = temp[i];
-        }
+        return right;
     }
-    void divide(vector<int>& nums, int start, int end) {
-        if (start == end) {
+    void qs(vector<int>&nums, int start, int end){
+        if(start >= end){
             return;
         }
-        int mid = start + (end - start) / 2;
 
-        divide(nums, start, mid);
-        divide(nums, mid + 1, end);
+        int pivotInd = findPivotInd(nums, start, end);
 
-        merge(nums, start, mid, end);
+        qs(nums, start, pivotInd);
+        qs(nums, pivotInd+1, end);
+
     }
     vector<int> sortArray(vector<int>& nums) {
         int n = nums.size();
-        divide(nums, 0, n - 1);
+        qs(nums,0, n-1);
+
         return nums;
     }
 };
