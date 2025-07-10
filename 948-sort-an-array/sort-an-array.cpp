@@ -18,6 +18,11 @@ and recursive solve for pivot - 1 and pivot +1
 class Solution {
 public:
     int findPivotInd(vector<int>&nums, int start, int end){
+
+        //next 2 lines are for random version
+        int randomIndex = start + rand() % (end - start + 1);
+        swap(nums[start], nums[randomIndex]);
+        
         int pivot = nums[start];
         int left = start+1, right = end;
 
@@ -49,7 +54,7 @@ public:
 
         int pivotInd = findPivotInd(nums, start, end);
 
-        qs(nums, start, pivotInd);
+        qs(nums, start, pivotInd-1);
         qs(nums, pivotInd+1, end);
 
     }
