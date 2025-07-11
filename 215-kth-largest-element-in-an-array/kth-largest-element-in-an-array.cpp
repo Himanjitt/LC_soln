@@ -3,6 +3,11 @@ public:
     //exactly same pivot finding algo as quick sort;
     // just sign reverse for descending (since kth largest)
     int findPivotInd(vector<int>&nums, int start, int end){
+
+        // next 2 lines are for random version
+        int randomIndex = start + rand() % (end - start + 1);
+        swap(nums[start], nums[randomIndex]);
+
         int pivot = nums[start];
         int left = start+1, right = end;
 
