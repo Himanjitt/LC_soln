@@ -3,7 +3,7 @@ Quick Sort
     1   2  3  5
     p   s     e
    [5 , 2, 3, 1]
-                 l 
+                l
               r
 The idea is to find take the pivot as the first element
 - first make sure all the left are small than pivot and right are
@@ -15,11 +15,14 @@ this above will make sure the current pivot is at its correct place
 and recursive solve for pivot - 1 and pivot +1
 
 */
+
+//QUICK SELECT AND QUICK SORT HAVE SAME PARTITION WAY
+//QUICK SELECT WAY HERE EASIER THAN PREVIOUS
 class Solution {
 public:
     int findPivotInd(vector<int>&nums, int start, int end){
 
-        //next 2 lines are for random version
+        // next 2 lines are for random version
         int randomIndex = start + rand() % (end - start + 1);
         swap(nums[start], nums[randomIndex]);
         
@@ -28,17 +31,17 @@ public:
 
         while(left <= right){
 
-            while(left <= end && nums[left] < pivot){
+            if(nums[left] > pivot && nums[right] < pivot){
+                swap(nums[left], nums[right]);
                 left++;
-            }
-
-            while(right >= start && nums[right] > pivot){
                 right--;
             }
 
-            if(left <= right){
-                swap(nums[left], nums[right]);
+            if(nums[left] <= pivot){
                 left++;
+            }
+
+            if(nums[right] >= pivot){
                 right--;
             }
         }
