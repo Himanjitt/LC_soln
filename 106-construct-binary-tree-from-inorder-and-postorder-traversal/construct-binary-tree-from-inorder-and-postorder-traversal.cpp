@@ -11,31 +11,36 @@
  */
 class Solution {
 public:
-    TreeNode* solve(vector<int>& inorder, vector<int>& postorder,int start, int end, int &idx){
-        if(start>end) return NULL;
+    unordered_map<int,int>mp;
+    int idx;
 
-        int rootVal=postorder[idx];
-        idx--;
-        int i;
-
-        for(i=start;i<=end;i++){
-            if(rootVal==inorder[i]){
-                break;
-            }
+    // order of postorder is from back 
+    // and right call will be made first and then left call
+    TreeNode* solve(vector<int>& postorder, vector<int>& inorder, int start, int end){
+        if(start > end){
+            return NULL;
         }
+        
+        int rootVal = postorder[idx];
+        idx--;
+        TreeNode* root = new TreeNode(rootVal);
+        
+        int pos = mp[rootVal];
 
-        TreeNode* root=new TreeNode(rootVal);
-        
-        root->right=solve(inorder, postorder, i+1, end, idx);
-        root->left=solve(inorder, postorder, start, i-1, idx);
-        
+        root->right = solve(postorder, inorder, pos+1, end);
+        root->left = solve(postorder, inorder, start, pos-1);
+
         return root;
-
     }
+
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int n=inorder.size();
-        int start=0, end=n-1;
-        int idx=n-1;
-        return solve(inorder, postorder, start, end, idx);
+        int  n = inorder.size();
+        for(int i=0;i<n;i++){
+            mp[inorder[i]] = i;
+        }
+        
+        int start = 0, end = n-1;
+        idx = n-1;
+        return solve(postorder, inorder, start, end);
     }
 };
