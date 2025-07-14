@@ -1,3 +1,10 @@
+/*
+
+              i
+["a","3","b","2","b","a","a"]
+                      j
+*/
+
 class Solution {
 public:
     int compress(vector<char>& chars) {
