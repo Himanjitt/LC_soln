@@ -17,11 +17,12 @@ public:
 
         vector<int>indeg(n,0);
 
-        for(int i=0;i<n;i++){
-            for(int j: adj[i]){
-                indeg[j]++;
+        for(auto it: adj){
+            for(int num : it.second){
+                indeg[num]++;
             }
         }
+        
         queue<int>q;
         vector<int> ans;
 
