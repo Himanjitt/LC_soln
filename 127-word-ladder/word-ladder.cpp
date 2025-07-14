@@ -1,48 +1,45 @@
 class Solution {
 public:
-    int ladderLength(string beginWord, string endWord,
+    int ladderLength(string startWord, string endWord,
                      vector<string>& wordList) {
-        //check notes
         unordered_set<string> st(wordList.begin(), wordList.end());
 
-        int n=beginWord.size();
-        if (wordList.size() == 0)
+        // endword is not present
+        if (st.find(endWord) == st.end())
             return 0;
+
+        // startWord == endword
+        if (startWord == endWord)
+            return 0;
+
         queue<string> q;
-        q.push(beginWord);
-        if (beginWord== endWord) {
-            return 0;
-        }
-        vector<char> alpha(26);
-
-        for(int i=0;i<26;i++){
-            alpha.push_back(97+i);
-        }
-
-        int steps = 1;
+        q.push(startWord);
+        int level = 0;
         while (!q.empty()) {
             int size = q.size();
+            level++;
             while (size--) {
-                string node = q.front();
+                string front = q.front();
                 q.pop();
 
-                if (node == endWord) {
-                    return steps;
-                }
-                for (int i = 0; i < n; i++) {
-                    char ch = node[i];
-                    for (char it : alpha) {
-                        node[i] = it;
-                        if (st.count(node) == 1) {
-                            q.push(node);
-                            st.erase(node);
+                if (front == endWord)
+                    return level;
+
+                for (int i = 0; i < front.size(); i++) {
+                    char letter = front[i];
+                    for (char ch = 'a'; ch <= 'z'; ch++) {
+                        front[i] = ch;
+                        if (st.find(front) != st.end()) {
+                            q.push(front);
+                            st.erase(front);
                         }
                     }
-                    node[i] = ch;
+                    front[i] = letter;
                 }
             }
-            steps++;
+            
         }
+
         return 0;
     }
 };
