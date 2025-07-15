@@ -1,6 +1,6 @@
 class Solution {
 public:
-    typedef pair<int, pair<int, int>> p;
+    // normal bfs with maximum levels possible as K and relaxation
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst,
                           int K) {
         map<int, vector<pair<int, int>>> adj;
@@ -13,29 +13,35 @@ public:
         }
         vector<int> distance(n, INT_MAX);
         distance[src] = 0;
-        priority_queue<p, vector<p>, greater<p>> pq;
-        int stops = 0;
-        pq.push({stops, {src, 0}});
-        while (!pq.empty()) {
-            auto node = pq.top();
-            pq.pop();
+        queue<pair<int, int>> q;
+        int levels = 0;
 
-            int stops = node.first;
-            int u = node.second.first;
-            int dis = node.second.second;
+        q.push({src, 0});
 
-            if (stops > K)
-                continue;
+        while (!q.empty()) {
+            int size = q.size();
 
-            for (auto neighbor : adj[u]) {
-                int v = neighbor.first;
-                int wt = neighbor.second;
+            if(levels > K){
+                break;
+            }
+            while (size--) {
+                auto node = q.front();
+                q.pop();
 
-                if (wt + dis < distance[v]) {
-                    distance[v] = wt + dis;
-                    pq.push({stops + 1, {v, distance[v]}});
+                int u = node.first;
+                int dis = node.second;
+
+                for (auto neighbor : adj[u]) {
+                    int v = neighbor.first;
+                    int wt = neighbor.second;
+
+                    if (wt + dis < distance[v]) {
+                        distance[v] = wt + dis;
+                        q.push({v, distance[v]});
+                    }
                 }
             }
+            levels++;
         }
 
         if (distance[dst] == INT_MAX)
