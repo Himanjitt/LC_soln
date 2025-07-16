@@ -1,41 +1,45 @@
 class LRUCache {
 public:
-    
-    // key to address and value
-    list<int>dll;
-    unordered_map<int,pair<list<int>::iterator, int>>mp;
+    list<int> dll;
     int n;
-    LRUCache(int capacity) { 
-        n = capacity; 
-    }
+    unordered_map<int, pair<list<int>::iterator, int>> mp;
 
-    void pushToFront(int key){
-        dll.erase(mp[key].first);
+    LRUCache(int capacity) {
+        n = capacity;    
+    }
+    
+    void pushFront(int key){
+        auto deleteAddress = mp[key].first;
+        dll.erase(deleteAddress);
         dll.push_front(key);
-        mp[key].first=dll.begin();
+        mp[key].first = dll.begin();
     }
 
     int get(int key) {
-        if(mp.find(key)==mp.end()){
+        //if the key is present
+        if(mp.find(key) != mp.end()){
+            pushFront(key);
+            return mp[key].second;
+        }else{
             return -1;
         }
-        
-        pushToFront(key);
-        return mp[key].second;   
     }
-
+    
     void put(int key, int value) {
-        if(mp.find(key)!=mp.end()){
-            mp[key].second=value;
-            pushToFront(key);
-        }else{
+        //case 1 key is already present in the cache
+        if(mp.find(key) != mp.end()){
+            pushFront(key);
+            mp[key].second = value;
+        }
+        else{ // not present in the cache
             dll.push_front(key);
-            mp[key]={dll.begin(),value};
+            mp[key].first = dll.begin();
+            mp[key].second = value;
             n--;
         }
-        if(n<0){
-            int keyToDel=dll.back();
-            mp.erase(keyToDel);
+
+        if(n < 0){ //cache overflow least used will be at the back
+            mp.erase(dll.back());
             dll.pop_back();
             n++;
         }
