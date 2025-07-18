@@ -1,17 +1,18 @@
 class Solution {
 public:
-    bool isPresent(char ch, string &ans){
-        for(char ele: ans){
-            if(ele==ch){
+    bool isPresentAfter(string& s, char ch, int i) {
+        for (int ind = i; ind < s.size(); ind++) {
+            if (s[ind] == ch) {
                 return true;
             }
         }
 
         return false;
     }
-    bool isPresentAfter(int i, string s,char ch){
-        for(int j=i;j<s.size();j++){
-            if(s[j]==ch){
+
+    bool isAlreadyPresent(string& ans, char ch) {
+        for (int ind = 0; ind < ans.size(); ind++) {
+            if (ans[ind] == ch) {
                 return true;
             }
         }
@@ -19,18 +20,39 @@ public:
         return false;
     }
     string removeDuplicateLetters(string s) {
+        // the idea is to insert a character into the string if the character is
+        // already there
+        // if the ans.back(), the last charac is greater than current , check
+        // the last is present in the future or not, if present pop and push the
+        // current if current is not there already
         string ans;
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
 
-        for(int i=0;i<s.size();i++){
-
-            while(ans.empty()==false && ans.back() > s[i] && isPresentAfter(i,s,ans.back())==true
-                && isPresent(s[i],ans)==false){
-                    ans.pop_back();    
+            // if empty
+            if (ans.empty() == true) {
+                ans += s[i];
+                continue;
             }
-            if(isPresent(s[i],ans)==false)
+
+            // if not empty;
+            while(ans.empty() ==false && ans.back() > s[i] && isPresentAfter(s, ans.back(), i) == true &&
+                isAlreadyPresent(ans, s[i]) == false) {
+                ans.pop_back();
+            }
+            if (isAlreadyPresent(ans, s[i]) == false) {
                 ans.push_back(s[i]);
+            }
         }
 
         return ans;
     }
 };
+
+/*
+
+cbacdcbc
+ans = cb
+
+
+*/
