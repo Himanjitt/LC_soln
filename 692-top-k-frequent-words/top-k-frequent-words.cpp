@@ -16,13 +16,13 @@ public:
     struct compare {
         bool operator()(pair<int, string>& a, pair<int, string>& b) {
             if (a.first == b.first) {
-                if (a.second > b.second) { // reverse logic for pq , max heap
+                if (a.second < b.second) { // reverse logic for pq , min heap (optimized)
                     return true;
                 }
                 return false;
             }
 
-            if (a.first < b.first) {
+            if (a.first > b.first) {// reverse logic for pq , min heap (optimized)
                 return true;
             }
 
@@ -40,6 +40,9 @@ public:
 
         for (auto it : mp) {
             pq.push({it.second, it.first});
+            if(pq.size() > k){
+                pq.pop();
+            }
         }
 
         vector<string> ans;
@@ -48,6 +51,7 @@ public:
             pq.pop();
         }
 
-        return ans;
+        reverse(ans.begin(), ans.end()); //reverse for min heap
+        return ans; //  O(ulogk)
     }
 };
