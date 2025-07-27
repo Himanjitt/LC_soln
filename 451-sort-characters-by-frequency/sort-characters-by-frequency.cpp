@@ -21,9 +21,9 @@ public:
 
         sort(v.begin(), v.end(), cmp);
 
-        for(auto ele : v){
-            cout<< ele.first<<" "<< ele.second<<endl;
-        }
+        // for(auto ele : v){
+        //     cout<< ele.first<<" "<< ele.second<<endl;
+        // }
         string ans;
 
         for(auto ele : v){
