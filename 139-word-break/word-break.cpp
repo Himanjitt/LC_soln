@@ -12,7 +12,7 @@ public:
             string temp = "";
             temp = s.substr(i, l);
 
-            if (st.count(temp) && solve(s, i + l, dp) == true) {
+            if (st.count(temp) > 0 && solve(s, i + l, dp) == true) {
                 return dp[i] = true;
             }
         }
