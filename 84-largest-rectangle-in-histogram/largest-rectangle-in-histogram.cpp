@@ -26,15 +26,15 @@ public:
         int n = heights.size();
         vector<int> NS(n, n);
         vector<int> PS(n, -1);
-        vector<int> width(n);
-        vector<int> area(n);
+        // vector<int> width(n);
+        // vector<int> area(n);
         findNS(NS, heights);
         findPS(PS, heights);
         int maxi = 0;
         for (int i = 0; i < n; i++) {
-            width[i] = NS[i] - PS[i] - 1;
-            area[i] = width[i] * heights[i];
-            maxi = max(maxi, area[i]);
+            int width = NS[i] - PS[i] - 1;
+            int area = width * heights[i];
+            maxi = max(maxi, area);
         }
         return maxi;
     }
