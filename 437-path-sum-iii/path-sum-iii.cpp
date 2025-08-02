@@ -12,41 +12,32 @@
 class Solution {
 public:
 /*
-we are doing dfs call for every n nodes
-there O(n^2)
+Same to same like count sub array sum equal k
 */
-    int count =0;
-    
-    void dfs(TreeNode* node, int target, long long currSum){
-        if(node == NULL){
-            return;
-        }
+    int count = 0;
+
+    void dfs(TreeNode* node, long long currSum, int targetSum, unordered_map<long long, int>& prefixSums) {
+        if (node == NULL) return ;
 
         currSum += node->val;
+        long long remSum = currSum - targetSum;
+        count += prefixSums[remSum];
 
-        if(currSum == target){
-            count++;
-        }
+        // Update prefixSums with current path sum
+        prefixSums[currSum]++;
 
-        dfs(node->left, target, currSum);
-        dfs(node->right, target, currSum);
-    }
+        dfs(node->left, currSum, targetSum, prefixSums);
+        dfs(node->right, currSum, targetSum, prefixSums);
 
-    void preorder(TreeNode* node, int target){
-        if(node == NULL){
-            return;
-        }
-
-        long long currSum = 0;
-        dfs(node, target, currSum);
-        preorder(node->left, target);
-        preorder(node->right, target);
+        // Backtrack: remove current path sum before returning to parent
+        prefixSums[currSum]--;
     }
 
     int pathSum(TreeNode* root, int targetSum) {
-        if(root == NULL) return count;
-        preorder(root, targetSum);
+        unordered_map<long long, int> prefixSums;
+        prefixSums[0] = 1; // Base case: one way to reach sum = 0
+        dfs(root, 0, targetSum, prefixSums);
 
         return count;
-    }
+    } 
 };
