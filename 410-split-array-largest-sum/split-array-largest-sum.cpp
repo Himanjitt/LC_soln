@@ -1,23 +1,18 @@
 class Solution {
 public:
-    bool isValid(vector<int>& a, int k, int i) {
-
-        int pages = 0;
-        int student = 1;
-
-        for (int j = 0; j < a.size(); j++) {
-            if (pages + a[j] <= i) {
-                pages += a[j];
-            } else {
-                student++;
-                pages = a[j];
+    bool isValid(vector<int>& nums, int k, int maxSum) {
+        int count = 1;
+        int currentSum = 0;
+        for (int num : nums) {
+            currentSum += num;
+            if (currentSum > maxSum) {
+                count++;
+                currentSum = num;
+                if (count > k)
+                    return false;
             }
         }
-        if (student <= k) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
     int splitArray(vector<int>& a, int k) {
         int start = *max_element(a.begin(), a.end());
